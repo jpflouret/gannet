@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Gannet</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <header>
+      <img src="../../icons/icon48.png" alt="" width="24" height="24">
+      <h1>Gannet</h1>
+      <button id="clear-media" class="link" type="button" title="Remove all media from the list of this page">Clear list</button>
+    </header>
+
+    <main>
+      <section id="media"></section>
+      <p id="empty" class="empty" hidden>
+        No media found on this page.<br>
+        Start the video, then open this window again.
+      </p>
+
+      <section id="jobs-section" hidden>
+        <div class="section-head">
+          <h2>Downloads</h2>
+          <button id="clear-jobs" class="link" type="button">Clear finished</button>
+        </div>
+        <div id="jobs"></div>
+      </section>
+    </main>
+
+    <footer>Free and open source. MIT license. No limits, no tracking.</footer>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

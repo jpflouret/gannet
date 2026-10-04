@@ -1,0 +1,13 @@
+{
+  "name": "gannet",
+  "version": "0.1.0",
+  "description": "Free and open source video downloader extension for Chrome",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test",
+    "e2e": "node tools/e2e.mjs",
+    "icons": "node tools/make-icons.mjs"
+  }
+}
