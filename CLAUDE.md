@@ -14,11 +14,14 @@ node --test tests/mp4.test.js              # One test file
 node --test --test-name-pattern="defragment" tests/mp4.test.js   # One test by name
 npm run e2e                                # End-to-end test in headless Chrome
 npm run icons                              # Draw icons/*.png again from tools/make-icons.mjs
+npm run pack                               # Build dist/gannet-<version>.zip (manifest.json, LICENSE, icons/, src/)
 node tools/fetch-stream.mjs <manifest-url> [output-name] [--lowest]   # Run the engine from the command line
 ```
 
 - Node.js 22 or later is necessary. There is no linter and no bundler.
-- `npm run e2e` needs Chrome. Set `CHROME_PATH` if Chrome is not in a default location. Set `E2E_SCREENSHOT=<file.png>` to save a screenshot of the popup.
+- `npm run e2e` needs Chrome. Set `CHROME_PATH` if Chrome is not in a default location. Set `E2E_SCREENSHOT=<file.png>` to save a screenshot of the popup. Set `EXTENSION_DIR=<folder>` to test another copy of the extension, for example the extracted ZIP.
+- The version number is in `manifest.json` and in `package.json`. Change both for a release. `tools/pack.mjs` reads the version from `manifest.json`.
+- A pushed tag `v<version>` starts `.github/workflows/release.yml`. The workflow fails if the tag does not agree with both version numbers. It then runs `npm test` and `npm run pack`, and publishes a GitHub release with the ZIP. It does not run the end-to-end test.
 - To try the extension by hand, load the repository folder with **Load unpacked** at `chrome://extensions`.
 - The Node test runner collects all files named `*.test.js` or `*-test.mjs` in the repository. Do not give such a name to a script in `tools/`, or `npm test` will start it.
 

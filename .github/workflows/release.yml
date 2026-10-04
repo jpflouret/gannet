@@ -1,0 +1,43 @@
+# Builds the extension ZIP and publishes a GitHub release when a version
+# tag is pushed. Example: git tag v0.1.0, then git push origin v0.1.0.
+
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      # The tag must agree with the version in manifest.json and package.json.
+      - name: Check the version
+        run: |
+          manifest="v$(node -p "require('./manifest.json').version")"
+          package="v$(node -p "require('./package.json').version")"
+          if [ "$manifest" != "$GITHUB_REF_NAME" ] || [ "$package" != "$GITHUB_REF_NAME" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not agree with manifest.json ($manifest) and package.json ($package)."
+            exit 1
+          fi
+
+      - name: Run the unit tests
+        run: npm test
+
+      - name: Build the ZIP
+        run: npm run pack
+
+      - name: Publish the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.zip --title "Gannet $GITHUB_REF_NAME" --generate-notes --verify-tag

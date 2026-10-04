@@ -8,6 +8,7 @@
   "scripts": {
     "test": "node --test",
     "e2e": "node tools/e2e.mjs",
-    "icons": "node tools/make-icons.mjs"
+    "icons": "node tools/make-icons.mjs",
+    "pack": "node tools/pack.mjs"
   }
 }

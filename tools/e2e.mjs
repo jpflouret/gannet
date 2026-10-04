@@ -3,6 +3,8 @@
 //
 // Usage: node tools/e2e.mjs
 // Set CHROME_PATH if Chrome is not in the default location.
+// Set EXTENSION_DIR to test a different copy of the extension, for example
+// the extracted ZIP from tools/pack.mjs.
 
 import { spawn } from 'node:child_process';
 import { createServer } from 'node:http';
@@ -19,7 +21,7 @@ const CHROME_PATHS = [
   '/usr/bin/chromium',
 ].filter(Boolean);
 
-const extensionDir = path.resolve(import.meta.dirname, '..');
+const extensionDir = path.resolve(process.env.EXTENSION_DIR || path.join(import.meta.dirname, '..'));
 const workDir = mkdtempSync(path.join(tmpdir(), 'gannet-e2e-'));
 const downloadDir = path.join(workDir, 'downloads');
 const profileDir = path.join(workDir, 'profile');

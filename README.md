@@ -99,7 +99,28 @@ Node.js 22 or later is necessary for the tests. There is no build step.
 npm test                    # Unit tests
 npm run e2e                 # End-to-end test in headless Chrome
 npm run icons               # Draw the icons again
+npm run pack                # Build dist/gannet-<version>.zip for release
 ```
+
+The ZIP from `npm run pack` contains only `manifest.json`, `LICENSE`, `icons/`
+and `src/`. It is the file to upload to the Chrome Web Store.
+
+### Release
+
+A GitHub Actions workflow publishes a release when a version tag is pushed.
+
+1. Set the new version in `manifest.json` and in `package.json`.
+2. Commit and push the change.
+3. Tag the commit and push the tag:
+
+   ```sh
+   git tag v0.2.0
+   git push origin v0.2.0
+   ```
+
+The workflow stops if the tag does not agree with the two version numbers.
+It then runs the unit tests, builds the ZIP and attaches it to a new GitHub
+release.
 
 `tools/fetch-stream.mjs` downloads a stream from the command line with the
 same engine as the extension:
